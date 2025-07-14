@@ -1,0 +1,10 @@
+fn i32 main(i32 argc, &str argv) {
+	for infer x := 0, x < 10, x += 1 {
+    };
+
+   i32 blud := match x {
+    	5 -> {},
+        1 | 9 | "hello" -> blud,
+        _ -> ok,
+    }
+}
