@@ -46,7 +46,7 @@ const primitiveTypes = numericTypes.concat(["bool", "str", "char", "void", "infe
 
 module.exports = grammar({
 	name: "tessera",
-	extras: $ => [/[\n]/, /\s/, $.comment],
+	extras: $ => [/\s+/, $.comment],
 
 	supertypes: $ => [
 		$._expression,
@@ -223,7 +223,7 @@ module.exports = grammar({
 		type_cast_expression: $ =>
 			prec.left(PREC.cast, seq(field("value", $._expression), "as", field("type", $._type))),
 
-		return_expression: $ => choice(prec.left(seq("return", $._expression)), prec(-1, "return")),
+		return_expression: $ => choice(prec.left(seq("|>", $._expression)), prec(-1, "|>")),
 
 		call_expression: $ =>
 			prec(
@@ -413,7 +413,7 @@ module.exports = grammar({
 
 		// MISC
 		// LITERALS & IDENTIFIERS
-		identifier: _ => /[a-zA-Z_][a-zA-Z0-9_]*/,
+		identifier: _ => token(/[a-zA-Z_][a-zA-Z0-9_]*/),
 		boolean_literal: _ => choice("true", "false"),
 		string_literal: $ => seq('"', /[^"\n]*/, '"'),
 		negative_literal: $ => seq("-", choice($.integer_literal, $.float_literal)),

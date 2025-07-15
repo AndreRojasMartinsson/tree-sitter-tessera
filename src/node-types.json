@@ -1981,10 +1981,6 @@
     "named": false
   },
   {
-    "type": "return",
-    "named": false
-  },
-  {
     "type": "self",
     "named": false
   },
@@ -2014,6 +2010,10 @@
   },
   {
     "type": "|=",
+    "named": false
+  },
+  {
+    "type": "|>",
     "named": false
   },
   {

@@ -1125,7 +1125,7 @@
             "members": [
               {
                 "type": "STRING",
-                "value": "return"
+                "value": "|>"
               },
               {
                 "type": "SYMBOL",
@@ -1139,7 +1139,7 @@
           "value": -1,
           "content": {
             "type": "STRING",
-            "value": "return"
+            "value": "|>"
           }
         }
       ]
@@ -2719,8 +2719,11 @@
       "value": "mut"
     },
     "identifier": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z_][a-zA-Z0-9_]*"
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[a-zA-Z_][a-zA-Z0-9_]*"
+      }
     },
     "boolean_literal": {
       "type": "CHOICE",
@@ -3159,11 +3162,7 @@
   "extras": [
     {
       "type": "PATTERN",
-      "value": "[\\n]"
-    },
-    {
-      "type": "PATTERN",
-      "value": "\\s"
+      "value": "\\s+"
     },
     {
       "type": "SYMBOL",
