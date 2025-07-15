@@ -32,12 +32,31 @@
 
 ; Function calls
 
+(while_expression
+  (label
+    (identifier) @label.definition))
+(for_expression
+  (label
+    (identifier) @label.definition))
+(for_in_expression
+  (label
+    (identifier) @label.definition))
+
+(break_expression
+  (label
+    (identifier) @label.reference))
+(continue_expression
+  (label
+    (identifier) @label.reference))
+
 (call_expression
   function: (identifier) @function)
 (call_expression
   function: (scoped_identifier
     ":"
     name: (identifier) @function))
+
+("'" (identifier) @label)
 
 ; Function definitions
 

@@ -129,7 +129,7 @@ module.exports = grammar({
 			),
 
 		block: $ =>
-			seq(optional(seq($.label, "#")), "{", repeat($._statement), optional($._expression), "}"),
+			seq(optional(seq($.label, ":")), "{", repeat($._statement), optional($._expression), "}"),
 
 		// Expression
 		_expression: $ => choice($._expression_except_range, $.range_expression),
@@ -321,7 +321,7 @@ module.exports = grammar({
 
 		while_expression: $ =>
 			seq(
-				optional(seq($.label, "#")),
+				optional(seq($.label, ":")),
 				"while",
 				field("condition", $._expression),
 				field("body", $.block),
@@ -329,7 +329,7 @@ module.exports = grammar({
 
 		for_in_expression: $ =>
 			seq(
-				optional(seq($.label, "#")),
+				optional(seq($.label, ":")),
 				"for",
 				field("type", $._type),
 				field("name", $.identifier),
@@ -340,7 +340,7 @@ module.exports = grammar({
 
 		for_expression: $ =>
 			seq(
-				optional(seq($.label, "#")),
+				optional(seq($.label, ":")),
 				"for",
 				field("initializer", $.variable_declaration),
 				",",

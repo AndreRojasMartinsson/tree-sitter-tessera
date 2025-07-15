@@ -4,7 +4,7 @@ endif
 
 LANGUAGE_NAME := tree-sitter-tessera
 HOMEPAGE_URL := https://github.com/tree-sitter/tree-sitter-tessera
-VERSION := 0.3.0
+VERSION := 0.4.0
 
 # repository
 SRC_DIR := src
