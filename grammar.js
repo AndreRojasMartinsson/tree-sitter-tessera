@@ -350,7 +350,7 @@ module.exports = grammar({
 				field("body", $.block),
 			),
 
-		label: $ => seq("'", $.identifier),
+		label: $ => seq("$", $.identifier),
 
 		variable_declaration: $ =>
 			seq(

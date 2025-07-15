@@ -56,7 +56,7 @@
     ":"
     name: (identifier) @function))
 
-("'" (identifier) @label)
+("$" (identifier) @label.definition)
 
 ; Function definitions
 
