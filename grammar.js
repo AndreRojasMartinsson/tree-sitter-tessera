@@ -36,6 +36,8 @@ const numericTypes = [
 	"i32",
 	"u64",
 	"i64",
+	"i128",
+	"u128",
 	"isz",
 	"usz",
 	"float",
@@ -82,8 +84,18 @@ module.exports = grammar({
 
 	rules: {
 		// ROOT
-		source_file: $ => repeat($._statement),
+		source_file: $ => repeat(choice($._statement, $._top_level_items)),
+		_top_level_items: $ => choice($.module_item, $.using_item),
 		_statement: $ => choice($._declaration_statement, $.expression_statement),
+
+		module_item: $ => seq("module", field("name", $.identifier), field("body", $.block)),
+		using_item: $ => seq("using", $.use_path, optional($.use_suffix), ";"),
+
+		use_path: $ => prec.right(seq($.identifier, repeat(seq(":", $.identifier)))),
+
+		use_suffix: $ => choice(seq(":", "*"), seq(":", "{", commaSep1($.use_list_item), "}")),
+
+		use_list_item: $ => seq($.use_path, optional($.use_suffix)),
 
 		empty_statement: _ => ";",
 
@@ -101,7 +113,13 @@ module.exports = grammar({
 			),
 
 		_declaration_statement: $ =>
-			choice($.const_item, $.empty_statement, $.function_item, $.variable_declaration),
+			choice(
+				$.const_item,
+				$.empty_statement,
+				$.extern_function_item,
+				$.function_item,
+				$.variable_declaration,
+			),
 
 		// Items
 		const_item: $ =>
@@ -117,10 +135,20 @@ module.exports = grammar({
 				),
 			),
 
+		extern_function_item: $ =>
+			seq(
+				"extern",
+				"fn",
+				field("return_type", $._type),
+				field("name", $.identifier),
+				field("parameters", $.parameters),
+				";",
+			),
+
 		function_item: $ =>
 			seq(
 				optional($.visibility_modifier),
-				optional($.function_modifiers),
+				optional("const"),
 				"fn",
 				field("return_type", $._type),
 				field("name", $.identifier),
@@ -143,6 +171,7 @@ module.exports = grammar({
 				$.compound_assignment_expr,
 				$.type_cast_expression,
 				$.call_expression,
+				$.name_expr,
 				$.return_expression,
 				$._literal,
 				prec.left($.identifier),
@@ -153,6 +182,12 @@ module.exports = grammar({
 				$.continue_expression,
 				$.parenthesized_expression,
 				$._expression_ending_with_block,
+			),
+
+		name_expr: $ =>
+			prec.left(
+				PREC.field,
+				seq(field("object", $._expression), ".", field("property", $._field_identifier)),
 			),
 
 		range_expression: $ =>
@@ -382,14 +417,14 @@ module.exports = grammar({
 
 		variadic_parameter: $ =>
 			seq(
-				field("type", $._type),
 				optional($.mutable_specifier),
+				field("type", $._type),
 				"...",
 				field("name", $.identifier),
 			),
 
 		// Modifiers
-		function_modifiers: _ => repeat1(choice("const", "extern")),
+		// function_modifiers: _ => repeat1(choice("const", "extern")),
 
 		visibility_modifier: $ => seq("pub", optional(seq("(", choice($.self, $.super, $.crate), ")"))),
 

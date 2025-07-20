@@ -18,13 +18,16 @@
 ((scoped_identifier
   path: (identifier) @type)
  (#match? @type "^[A-Z]"))
+
 ((scoped_identifier
   path: (scoped_identifier
     name: (identifier) @type))
  (#match? @type "^[A-Z]"))
+
 ((scoped_type_identifier
   path: (identifier) @type)
  (#match? @type "^[A-Z]"))
+
 ((scoped_type_identifier
   path: (scoped_identifier
     name: (identifier) @type))
@@ -32,21 +35,29 @@
 
 ; Function calls
 
+"$" @string
+"\"" @string
+
 (while_expression
   (label
+    "$"       @string
     (identifier) @label.definition))
 (for_expression
   (label
+    "$"       @string
     (identifier) @label.definition))
 (for_in_expression
   (label
+    "$"       @string
     (identifier) @label.definition))
 
 (break_expression
   (label
+    "$"       @string
     (identifier) @label.reference))
 (continue_expression
   (label
+    "$"       @string
     (identifier) @label.reference))
 
 (call_expression
@@ -56,13 +67,41 @@
     ":"
     name: (identifier) @function))
 
+(name_expr
+  property: (field_identifier) @variable)
+
+[
+  ;; method‐ or property‐style calls: foo.bar.baz()
+  (call_expression
+    function: (name_expr
+                property: (field_identifier) @function))
+
+  ;; simple calls: foo()
+  (call_expression
+    function: (identifier) @function)
+]
+
+
+ 
+
+; Using definitions
+((using_item) @keyword)
+((use_path) @variable.builtin)
+((use_list_item) @identifier)
+
+
 ("$" (identifier) @label.definition)
 
 ; Function definitions
 
 (function_item (identifier) @function)
+(extern_function_item (identifier) @function)
 
 (comment) @comment
+
+(module_item (identifier) @variable.builtin)
+
+(variadic_parameter) @variable.parameter
 
 ;;
 
@@ -94,6 +133,7 @@
 "in" @keyword
 "match" @keyword
 "pub" @keyword
+"module" @keyword
 "ref" @keyword
 "|>" @keyword
 ; "using" @keyword
@@ -114,9 +154,8 @@
 
 "*" @operator
 "&" @operator
-"'" @operator
-".." @operator
 "..." @operator
+".." @operator
 "..=" @operator
 "!" @operator
 "!=" @operator
@@ -140,7 +179,6 @@
 ">" @operator
 ">=" @operator
 ">>=" @operator
-"#" @operator
 "^" @operator
 "^=" @operator
 "|" @operator

@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-tessera",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Tessera grammar for tree-sitter",
   "repository": "https://github.com/tree-sitter/tree-sitter-tessera",
   "license": "MIT",

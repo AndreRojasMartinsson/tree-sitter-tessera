@@ -1,10 +1,28 @@
-fn i32 main(i32 argc, &str argv) {
-	for infer x := 0, x < 10, x += 1 {
-    };
+using std:io:mate;
 
-   i32 blud := match x {
-    	5 -> {},
-        1 | 9 | "hello" -> blud,
-        _ -> ok,
-    }
+module foo {
+  pub fn i32 add() {
+
+  }
+
+};
+
+extern fn void printf(str format_spec, str... args);
+
+fn i32 main(i32 argc, &str argv) {
+	//for infer x := 0, x < 10, x += 1 {
+	//   };
+	//
+
+obj.print.man;
+
+  std:mem:io:take();
+  obj.print.test();
+
+
+   //i32 blud := match x {
+   // 	5 -> {},
+   //     1 | 9 | "hello" -> blud,
+   //     _ -> ok,
+   // }
 }
